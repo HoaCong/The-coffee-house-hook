@@ -1,0 +1,114 @@
+.item_category {
+  width: 100%;
+  height: 32px;
+  background-color: rgb(197, 197, 197);
+}
+.name_item_menu {
+  width: 200px;
+  height: 25px;
+  margin: 4px 0;
+  background-color: rgb(197, 197, 197);
+}
+.image__menu {
+  background-color: rgb(197, 197, 197);
+}
+.content__item__menu {
+  width: 480px;
+  height: 80px;
+  margin-left: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.item__menu__name,
+.item__menu__content,
+.item__menu__price {
+  background-color: rgb(197, 197, 197);
+  height: 31%;
+}
+.item__menu__name {
+  width: 200px;
+}
+.item__menu__price {
+  width: 100px;
+}
+
+.loading {
+  position: relative;
+  overflow: hidden;
+  animation: loading 0.7s ease-in-out infinite backwards;
+  background: linear-gradient(to right, #eee 2%, #ddd 18%, #eee 33%);
+  background-size: 1300px;
+}
+.loading:after,
+.loading:before {
+  content: "";
+  position: absolute;
+}
+@keyframes loading {
+  0% {
+    background-position: -480px 0;
+  }
+  100% {
+    background-position: 480px 0;
+  }
+}
+
+/* nav_header */
+.address_search {
+  position: relative;
+}
+.result_order_input {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  right: 0;
+
+  background-color: #fff;
+  margin: 0;
+  padding: 0;
+  line-height: 50px;
+  box-shadow: 0px 0px 4px 1px #b4b4b4;
+
+  /* transition: all 0.5s ease-in-out; */
+}
+
+.result_error {
+  text-transform: uppercase;
+}
+.result_error div {
+  padding: 0 8px;
+}
+ul.result_order_input li {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  padding: 8px 0;
+}
+.result_order_input li:hover {
+  background-color: #f5f5f5;
+}
+ul.result_order_input li + li {
+  border-top: 1px solid #cacaca;
+}
+ul.result_order_input li i {
+  line-height: 50px;
+  text-align: center;
+  width: 50px;
+  height: 50px;
+}
+ul.result_order_input li p {
+  margin: 0;
+  line-height: 20px;
+  font-size: 12.25px;
+}
+ul.result_order_input div {
+  flex: 1;
+}
+.fa-map-marker-alt {
+  color: #666666;
+  font-size: 20px;
+}
+.address {
+  text-transform: uppercase;
+}

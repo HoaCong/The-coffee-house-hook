@@ -1,0 +1,99 @@
+.login-container {
+  height: 94vh;
+  position: relative;
+}
+.login_box {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 290px;
+  width: 500px;
+}
+.txt-header {
+  font-size: 24.5px;
+  margin: 0;
+  padding: 0;
+}
+.phone-number {
+  flex-grow: 1;
+  height: 40px;
+  padding: 0 8px;
+}
+.error {
+  color: red;
+  font-size: 13px;
+  margin-left: 3px;
+  font-weight: 700;
+  height: 16px;
+  margin: 12px 0;
+}
+.submit_login {
+  width: 100%;
+  height: 40px;
+  background-color: #ea8025;
+  color: #fff;
+  text-transform: uppercase;
+}
+.submit_login:hover {
+  background-color: #d47521;
+  border: 1px solid transparent;
+}
+.submit_login:disabled {
+  opacity: 0.5;
+  color: black;
+  background: transparent;
+  border: 1px solid #999;
+}
+.register {
+  text-align: end;
+  margin: 8px 0;
+}
+.register .link_switch {
+  font-style: italic;
+  font-weight: bold;
+  color: black;
+  cursor: pointer;
+}
+.register .back_forward {
+  color: #007bff;
+}
+.login_differen {
+  margin: 16px 0;
+}
+.flex_center {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.social {
+  width: 200px;
+  height: 40px;
+}
+.facebook {
+  background: rgb(238, 238, 238);
+}
+.email {
+  background: black;
+  color: #fff;
+}
+
+.login_box .select_country {
+  opacity: 0;
+  height: 40px;
+  width: 148px;
+  position: relative;
+}
+.btn-select_country {
+  position: fixed;
+  left: 0;
+  width: 148px;
+  height: 40px;
+
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+}
+.btn-select_country .code_region {
+  margin-left: 16px;
+}
