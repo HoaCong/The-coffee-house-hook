@@ -9,6 +9,7 @@ class MenuLoading extends Component {
         <SearchForm />
         <ListMenuLoading />
         <ListMenuLoading />
+        <ListMenuLoading />
       </section>
     );
   }

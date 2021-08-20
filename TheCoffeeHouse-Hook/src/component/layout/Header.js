@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../../img/logo.png";
+import callApi, { callApiHeader } from "../callApi";
 import Button from "../common/Button";
 import Image from "../common/Image";
 import SearchForm from "../common/SearchForm";
@@ -82,38 +83,54 @@ function Header(props) {
   function callback(data) {
     setAddress(data);
   }
+
   function searchApiAddress(key) {
-    fetch(
-      `https://api.thecoffeehouse.com/api/v5/map/autocomplete?key=${key}&from=TCH-WEB`,
-      {
-        headers: {
-          accept: "application/json, text/plain, */*",
-          "accept-language": "en-US,en;q=0.9,ja;q=0.8",
-          "cache-control": "no-cache",
-          pragma: "no-cache",
-          "sec-ch-ua":
-            '" Not;A Brand";v="99", "Google Chrome";v="91", "Chromium";v="91"',
-          "sec-ch-ua-mobile": "?0",
-          "sec-fetch-dest": "empty",
-          "sec-fetch-mode": "cors",
-          "sec-fetch-site": "same-site",
-          "tch-app-version": "",
-          "tch-device-id": "",
-          "x-csrf-token": "XJVEF4AnLtZqcFJ87XeJaV1nJxGC5HrAkMy9QCHA",
-          "x-requested-with": "XMLHttpRequest",
-        },
-        referrer: "https://order.thecoffeehouse.com/",
-        referrerPolicy: "strict-origin-when-cross-origin",
-        body: null,
-        method: "GET",
-        mode: "cors",
-        credentials: "omit",
+    // fetch(
+    //   `https://api.thecoffeehouse.com/api/v5/map/autocomplete?key=${key}&from=TCH-WEB`,
+    //   {
+    //     headers: {
+    //       accept: "application/json, text/plain, */*",
+    //       "accept-language": "en-US,en;q=0.9,ja;q=0.8",
+    //       "cache-control": "no-cache",
+    //       pragma: "no-cache",
+    //       "sec-ch-ua":
+    //         '" Not;A Brand";v="99", "Google Chrome";v="91", "Chromium";v="91"',
+    //       "sec-ch-ua-mobile": "?0",
+    //       "sec-fetch-dest": "empty",
+    //       "sec-fetch-mode": "cors",
+    //       "sec-fetch-site": "same-site",
+    //       "tch-app-version": "",
+    //       "tch-device-id": "",
+    //       "x-csrf-token": "XJVEF4AnLtZqcFJ87XeJaV1nJxGC5HrAkMy9QCHA",
+    //       "x-requested-with": "XMLHttpRequest",
+    //     },
+    //     referrer: "https://order.thecoffeehouse.com/",
+    //     referrerPolicy: "strict-origin-when-cross-origin",
+    //     body: null,
+    //     method: "GET",
+    //     mode: "cors",
+    //     credentials: "omit",
+    //   }
+    // )
+    //   .then((response) => response.json())
+    //   .then((ListAddress) => {
+    //     setGetAddress(ListAddress.addresses);
+    //   });
+    const headers = {
+      accept: "application/json, text/plain, */*",
+      "accept-language": "en-US,en;q=0.9,ja;q=0.8",
+      "cache-control": "no-cache",
+      pragma: "no-cache",
+      "tch-app-version": "",
+      "tch-device-id": "",
+      "x-csrf-token": "XJVEF4AnLtZqcFJ87XeJaV1nJxGC5HrAkMy9QCHA",
+      "x-requested-with": "XMLHttpRequest",
+    };
+    callApi(`v5/map/autocomplete?key=${key}&from=TCH-WEB`, "GET", headers).then(
+      (item) => {
+        setGetAddress(item.data.addresses);
       }
-    )
-      .then((response) => response.json())
-      .then((ListAddress) => {
-        setGetAddress(ListAddress.addresses);
-      });
+    );
   }
   function changeInput(e) {
     const key = e.target.value;

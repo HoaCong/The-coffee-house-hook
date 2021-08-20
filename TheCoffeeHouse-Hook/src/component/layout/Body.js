@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import callApi from "../callApi";
 import CartContainer from "../features/CartContainer";
 import ListCategory from "../features/ListCategory";
 import MenuContainer from "../features/MenuContainer";
@@ -29,7 +30,7 @@ function Body(props) {
   function resetIndexItem() {
     setIndexItem(-1);
   }
-  function getAmount(data) {
+  function getAmountOrder(data) {
     let totalAmount = 0,
       totalPrice = 0;
     data.map(
@@ -87,11 +88,11 @@ function Body(props) {
         "cartOrder",
         JSON.stringify([...tmpCart, obj].filter((item) => item.amount > 0))
       );
-      getAmount([...tmpCart, obj].filter((item) => item.amount > 0));
+      getAmountOrder([...tmpCart, obj].filter((item) => item.amount > 0));
     } else {
       setListOrder(tmpCart);
       localStorage.setItem("cartOrder", JSON.stringify(tmpCart));
-      getAmount(tmpCart);
+      getAmountOrder(tmpCart);
     }
     resetIndexItem();
   }
@@ -134,23 +135,19 @@ function Body(props) {
     return category;
   }
   useEffect(() => {
-    fetch("https://api.thecoffeehouse.com/api/v2/category/web")
-      .then((res) => res.json())
-      .then((categories) => {
-        fetch("https://api.thecoffeehouse.com/api/v2/menu")
-          .then((response) => response.json())
-          .then((menus) => {
-            const newData = mergeData(categories, menus.data);
-            setAllData(newData);
-            setMenu(menus.data);
-            setIsLoaded(true);
-            setActive(newData[0].id);
-          });
+    callApi(`v2/category/web`, "GET", null).then((categories) => {
+      callApi(`v2/menu`, "GET", null).then((menus) => {
+        const newData = mergeData(categories.data, menus.data.data);
+        setAllData(newData);
+        setMenu(menus.data.data);
+        setIsLoaded(true);
+        setActive(newData[0].id);
       });
+    });
     const cartOrder = localStorage.getItem("cartOrder");
     if (cartOrder) {
       setListOrder(JSON.parse(cartOrder));
-      getAmount(JSON.parse(cartOrder));
+      getAmountOrder(JSON.parse(cartOrder));
     }
   }, []);
 
