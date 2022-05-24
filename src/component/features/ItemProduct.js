@@ -1,5 +1,4 @@
 import React from "react";
-import Image from "../common/Image";
 import Price from "../common/Price";
 function ItemProduct(props) {
   function setItemOrder(data) {
@@ -8,7 +7,7 @@ function ItemProduct(props) {
   const product = props.ProductList;
   return product.map((item) => (
     <div className="ele_product" key={item._id}>
-      <Image Size="thumbnail" Src={item.image} Atl={item.product_name} />
+      <img className="thumbnail" src={item.image} alt={item.product_name} />
       <article>
         <h4>{item.product_name}</h4>
         <p className="description">{item.description}</p>

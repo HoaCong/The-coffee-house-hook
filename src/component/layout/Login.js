@@ -24,8 +24,8 @@ function Login(props) {
           </div>
           <div className="login_differen">hoặc đăng nhập bằng</div>
           <div className="flex_center">
-            <Button className="social facebook" Text="FACEBOOK" />
-            <Button className="social email" Text="EMAIL" />
+            <Button className="social facebook">FACEBOOK</Button>
+            <Button className="social email">EMAIL</Button>
           </div>
         </div>
       ) : (

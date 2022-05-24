@@ -1,30 +1,17 @@
 import React from "react";
-import InputSearch from "../common/Input";
 function SearchForm(props) {
-  function noneSubmit(e) {
-    e.preventDefault();
-  }
+  const { propsForm, icon, propsInput } = props;
   return (
     <form
       action=""
-      className={props.className}
       onSubmit={(e) => {
-        noneSubmit(e);
+        e.preventDefault();
       }}
-      onClick={props.onClick}
-      onBlur={props.onBlur}
       autoComplete="off"
+      {...propsForm}
     >
-      <i className={props.icon}></i>
-      <InputSearch
-        type={props.type}
-        classInput={props.classInput}
-        placeholder={props.placeholder}
-        value={props.value}
-        className={props.classInput}
-        name={props.name}
-        onChange={props.onChange}
-      />
+      <i className={icon}></i>
+      <input {...propsInput} />
     </form>
   );
 }

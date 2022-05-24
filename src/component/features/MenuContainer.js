@@ -38,11 +38,13 @@ function MenuContainer(props) {
   return (
     <section className={props.classMenu}>
       <SearchForm
-        className="order_input"
+        propsForm={{ className: "order_input" }}
         icon="fas fa-search"
-        type="text"
-        placeholder="Tìm kiếm sản phẩm"
-        onChange={(e) => handleValue(e)}
+        propsInput={{
+          type: "text",
+          placeholder: "Tìm kiếm sản phẩm",
+          onChange: (e) => handleValue(e),
+        }}
       />
 
       <ListProduct

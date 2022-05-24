@@ -1,6 +1,5 @@
 import React from "react";
 import Button from "../common/Button";
-import InputSearch from "../common/Input";
 import Price from "../common/Price";
 function CartContainer(props) {
   let feeShip = 0;
@@ -10,9 +9,10 @@ function CartContainer(props) {
         <div className="box_order">
           <Button
             className="seecart"
-            Text="Xem giỏ hàng"
             disabled={props.totalAmount > 0 ? false : true}
-          />
+          >
+            Xem giỏ hàng
+          </Button>
         </div>
         <div className="box_order list_order">
           {props.listOrder != null
@@ -67,13 +67,13 @@ function CartContainer(props) {
           </div>
           <div className="ele_order">
             <form action="" className="order_input">
-              <InputSearch
-                classInput="no-padding-l"
+              <input
+                className="no-padding-l"
                 type="text"
                 placeholder="Nhập mã ưu đãi tại đây"
               />
             </form>
-            <Button Text="Áp dụng" className="" />
+            <Button> Áp dụng</Button>
           </div>
         </div>
         <div className="box_order ele_order none_border">

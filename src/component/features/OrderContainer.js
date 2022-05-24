@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Button from "../common/Button";
-import Image from "../common/Image";
 import InputCheckbox from "../common/InputCheckbox";
 import Price from "../common/Price";
 import SearchForm from "../common/SearchForm";
@@ -70,7 +69,7 @@ function OrderContainer(props) {
           onClick={() => setItemOrder(0)}
         ></i>
         <div className="head_order">
-          <Image Size="thumbnail" Src={itemOrder.image} Alt="Ảnh sản phẩm" />
+          <img className="thumbnail" src={itemOrder.image} alt="Ảnh sản phẩm" />
           <article>
             <h4 className="name_product">{itemOrder.product_name}</h4>
             <p className="current_option">{size}</p>
@@ -131,13 +130,15 @@ function OrderContainer(props) {
             </div>
           ) : null}
           <SearchForm
-            className="order_input order_desc"
+            propsForm={{ className: "order_input order_desc" }}
             icon="fas fa-pencil-alt"
-            type="text"
-            placeholder="Thêm ghi chú món này"
-            name="description"
-            value={desc || ""}
-            onChange={(e) => getDesc(e)}
+            propsInput={{
+              type: "text",
+              name: "description",
+              placeholder: "Thêm ghi chú món này",
+              value: desc || "",
+              onChange: (e) => getDesc(e),
+            }}
           />
         </div>
         <hr />
@@ -150,20 +151,16 @@ function OrderContainer(props) {
             <div className="amount">{amount}</div>
             <i className="fas fa-plus-circle" onClick={() => calAmount(1)}></i>
           </div>
-          <Button
-            className="seecart"
-            onClick={() => addOrder()}
-            Text={
-              <div className="btn_add_cart">
-                <div className="add_cart">Thêm vào giỏ</div>
-                <Price
-                  className="no-margin price_cart"
-                  price={(price + priceTopping) * amount}
-                  unit="đ"
-                />
-              </div>
-            }
-          />
+          <Button className="seecart" onClick={() => addOrder()}>
+            <div className="btn_add_cart">
+              <div className="add_cart">Thêm vào giỏ</div>
+              <Price
+                className="no-margin price_cart"
+                price={(price + priceTopping) * amount}
+                unit="đ"
+              />
+            </div>
+          </Button>
         </div>
       </div>
     </div>

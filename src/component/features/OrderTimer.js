@@ -193,11 +193,9 @@ function OrderTimer(props) {
               )}
             </select>
           </div>
-          <Button
-            className="seecart btn_timer"
-            Text="Hẹn giờ"
-            onClick={timer}
-          />
+          <Button className="seecart btn_timer" onClick={timer}>
+            Hẹn giờ
+          </Button>
         </div>
       ) : null}
     </div>

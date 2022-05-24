@@ -6,8 +6,10 @@ import MenuContainer from "../features/MenuContainer";
 import OrderContainer from "../features/OrderContainer";
 import CateLoading from "../placeholder/CategoriesLoading";
 import MenuLoading from "../placeholder/MenuLoading";
+import SearchNoneData from "../../img/search.png";
 
 function Body(props) {
+  
   //fetch API
   const [isLoaded, setIsLoaded] = useState(false);
   const [allData, setAllData] = useState([]);
@@ -33,7 +35,7 @@ function Body(props) {
   function getAmountOrder(data) {
     let totalAmount = 0,
       totalPrice = 0;
-    data.map(
+    data.forEach(
       (item) =>
         (totalAmount += item.amount) && (totalPrice += item.price * item.amount)
     );
@@ -156,11 +158,24 @@ function Body(props) {
       <div className="main">
         <CateLoading classList="categories" />
         <MenuLoading classMenu="products" />
-        <CartContainer classCart="cart" />
+        <CartContainer
+          classCart="cart"
+          listOrder={listOrder}
+          editItemOrder={editItemOrder}
+          totalPrice={totalPrice}
+          totalAmount={totalAmount}
+        />
       </div>
     );
   } else if (allData.length === 0) {
-    return <div>Error: NONE DATA</div>;
+    return (
+      <div className="none_data no_date_call">
+        <img src={SearchNoneData} alt="Logo Cửa Hàng" className="logo" />
+        <div className="none_data_error">
+          Rất tiếc chúng tôi không tìm thấy sản phẩm!
+        </div>
+      </div>
+    );
   } else {
     return (
       <div className="main">

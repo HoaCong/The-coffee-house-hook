@@ -2,27 +2,26 @@ import React from "react";
 import Price from "../common/Price";
 
 function InputCheckbox(props) {
+  const { checked, type, id, name, value, onClick, nameOption, price } = props;
   return (
-    <div className="ele_radio" style={props.style}>
+    <div className="ele_radio">
       <input
-        defaultChecked={props.checked}
-        type={props.type}
-        id={props.id}
-        name={props.name}
-        value={props.value}
-        onClick={props.onClick}
+        defaultChecked={checked}
+        type={type}
+        id={id}
+        name={name}
+        value={value}
+        onClick={onClick}
       />
-      <label htmlFor={props.id} className="ele_radio">
-        <span>{props.nameOption}</span>&nbsp;
-        {props.price > 0 ? (
-          <span className="order_amount">
-            (+
-            <Price className="no-margin" price={props.price} unit="đ" />)
+      <label htmlFor={id}>
+        <span>{nameOption}</span>&nbsp;
+        {price > 0 ? (
+          <span>
+            (+ <Price className="no-margin" price={price} unit="đ" />)
           </span>
         ) : null}
       </label>
     </div>
   );
 }
-
 export default InputCheckbox;

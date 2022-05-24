@@ -6,7 +6,14 @@ class MenuLoading extends Component {
   render() {
     return (
       <section className={this.props.classMenu}>
-        <SearchForm />
+        <SearchForm
+          propsForm={{ className: "order_input" }}
+          icon="fas fa-search"
+          propsInput={{
+            type: "text",
+            placeholder: "Tìm kiếm sản phẩm",
+          }}
+        />
         <ListMenuLoading />
         <ListMenuLoading />
         <ListMenuLoading />

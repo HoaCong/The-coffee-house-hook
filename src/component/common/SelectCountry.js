@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import logoCountry from "../../img/country.png";
-import InputSearch from "./Input";
 import Button from "./Button";
 import firebase from "../firebase";
 import { useHistory } from "react-router-dom";
@@ -79,8 +78,8 @@ function SelectCountry(props) {
         <select className="select_country">
           <option value="+84">+84</option>
         </select>
-        <InputSearch
-          classInput="phone-number"
+        <input
+          className="phone-number"
           type="number"
           placeholder="Nhập số điện thoại của bạn"
           maxLength="13"
@@ -100,9 +99,10 @@ function SelectCountry(props) {
       <Button
         onClick={handleClick}
         className="submit_login"
-        Text={props.TextButton}
         disabled={error < 9 || error > 11 ? true : false}
-      />
+      >
+        {props.TextButton}
+      </Button>
       {/* <form action="/#" onSubmit={onSubmitOtp}>
       <InputSearch
         classInput="phone-number"

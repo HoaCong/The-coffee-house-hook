@@ -21,6 +21,7 @@
   left: 50%;
   min-height: 370px;
   min-width: 630px;
+  max-width: 720px;
   transform: translateX(-50%);
   background: #fff;
   z-index: 2;
@@ -42,11 +43,13 @@
 .radio_order {
   display: flex;
   justify-content: flex-start;
+  flex-wrap: wrap;
 }
 .radio_order .ele_radio {
-  margin-right: 24px;
   display: flex;
   align-content: center;
+  width: 33%;
+  margin: 8px 0;
 }
 .order_desc {
   width: 100%;
@@ -101,6 +104,7 @@
 .name_product,
 .current_option {
   margin: 0 0 7px 0;
+  width: 540px;
 }
 
 .foot_order .seecart {

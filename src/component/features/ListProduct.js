@@ -1,6 +1,5 @@
 import React from "react";
-import Search from "../../img/search.png";
-import Image from "../common/Image";
+import SearchNoneData from "../../img/search.png";
 import ShowListProduct from "./ShowListProduct";
 function ListProduct(props) {
   const product = props.ProductList;
@@ -20,7 +19,7 @@ function ListProduct(props) {
   if (!result) {
     return (
       <div className="none_data">
-        <Image Src={Search} Alt="Logo Cửa Hàng" Size="logo" />
+        <img src={SearchNoneData} alt="Logo Cửa Hàng" className="logo" />
         <div className="none_data_error">
           Rất tiếc chúng tôi không tìm thấy sản phẩm!
         </div>

@@ -174,12 +174,16 @@ li {
 .name_category {
   margin-top: 12px;
 }
+
 .none_data {
   text-align: center;
   padding: 16px 20%;
 }
 .none_data img {
   width: 100%;
+}
+.none_data.no_date_call img {
+  width: 50%;
 }
 .none_data_error {
   color: #ea8025;

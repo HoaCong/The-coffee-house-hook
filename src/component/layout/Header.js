@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import logo from "../../img/logo.png";
 import callApi, { callApiHeader } from "../callApi";
 import Button from "../common/Button";
-import Image from "../common/Image";
 import SearchForm from "../common/SearchForm";
 import OrderTimer from "../features/OrderTimer";
 function ItemAddress(props) {
@@ -85,37 +84,6 @@ function Header(props) {
   }
 
   function searchApiAddress(key) {
-    // fetch(
-    //   `https://api.thecoffeehouse.com/api/v5/map/autocomplete?key=${key}&from=TCH-WEB`,
-    //   {
-    //     headers: {
-    //       accept: "application/json, text/plain, */*",
-    //       "accept-language": "en-US,en;q=0.9,ja;q=0.8",
-    //       "cache-control": "no-cache",
-    //       pragma: "no-cache",
-    //       "sec-ch-ua":
-    //         '" Not;A Brand";v="99", "Google Chrome";v="91", "Chromium";v="91"',
-    //       "sec-ch-ua-mobile": "?0",
-    //       "sec-fetch-dest": "empty",
-    //       "sec-fetch-mode": "cors",
-    //       "sec-fetch-site": "same-site",
-    //       "tch-app-version": "",
-    //       "tch-device-id": "",
-    //       "x-csrf-token": "XJVEF4AnLtZqcFJ87XeJaV1nJxGC5HrAkMy9QCHA",
-    //       "x-requested-with": "XMLHttpRequest",
-    //     },
-    //     referrer: "https://order.thecoffeehouse.com/",
-    //     referrerPolicy: "strict-origin-when-cross-origin",
-    //     body: null,
-    //     method: "GET",
-    //     mode: "cors",
-    //     credentials: "omit",
-    //   }
-    // )
-    //   .then((response) => response.json())
-    //   .then((ListAddress) => {
-    //     setGetAddress(ListAddress.addresses);
-    //   });
     const headers = {
       accept: "application/json, text/plain, */*",
       "accept-language": "en-US,en;q=0.9,ja;q=0.8",
@@ -158,11 +126,11 @@ function Header(props) {
   return (
     <header>
       <Link to="/">
-        <Image Src={logo} Alt="Logo Cửa Hàng" Size="logo" />
+        <img src={logo} alt="Logo Cửa Hàng" className="logo" />
       </Link>
       <div className="nav_header">
         <div className="toogle_timer" ref={insideTimer}>
-          <Button Text={textTimer} onClick={changeToogleTimer} />
+          <Button onClick={changeToogleTimer}>{textTimer}</Button>
           {toogleTimer ? (
             <OrderTimer
               listDate={listDate}
@@ -173,15 +141,19 @@ function Header(props) {
         </div>
         <div className="address_search">
           <SearchForm
-            className="order_input"
+            propsForm={{
+              className: "order_input",
+              onClick: () => setTimeout(openAddress, 150),
+              onBlur: () => setTimeout(closeAddress, 150),
+            }}
             icon="fas fa-map-marker-alt"
-            onClick={() => setTimeout(openAddress, 150)}
-            onBlur={() => setTimeout(closeAddress, 150)}
-            type="text"
-            placeholder="Nhập địa chỉ giao hàng"
-            name="address"
-            value={address || ""}
-            onChange={(e) => changeInput(e)}
+            propsInput={{
+              type: "text",
+              placeholder: "Nhập địa chỉ giao hàng",
+              name: "address",
+              value: address || "",
+              onChange: (e) => changeInput(e),
+            }}
           />
           {toogleAddress ? (
             <ListAddress
@@ -195,7 +167,7 @@ function Header(props) {
       </div>
       <div className="toogle_timer flex_timer">
         <Link to="/login">
-          <Button className="login" Text="Đăng nhập" />
+          <Button className="login">Đăng nhập</Button>
         </Link>
         {props.amount > 0 ? (
           <div className="flex_timer">
