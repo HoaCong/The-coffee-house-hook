@@ -4,62 +4,59 @@ import InputCheckbox from "../common/InputCheckbox";
 import Price from "../common/Price";
 import SearchForm from "../common/SearchForm";
 function OrderContainer(props) {
+  const { toogleOrder, addToCart, itemOrder } = props;
   const [size, setSize] = useState(props.size);
-  const [topping, setTopping] = useState(props.topping);
-  const [desc, setDesc] = useState(props.desc);
-  const [amount, setAmount] = useState(props.amount);
-  const [price, setPrice] = useState(props.price);
-  const [priceTopping, setPriceTopping] = useState(props.priceTopping);
-  function setItemOrder(data) {
-    props.toogleOrder(data);
-  }
+  const [topping, setTopping] = useState(props.topping || []);
+  const [desc, setDesc] = useState(props.desc || "");
+  const [amount, setAmount] = useState(props.amount || 1);
+  const [price, setPrice] = useState(props.price || itemOrder.price);
+  const [priceTopping, setPriceTopping] = useState(props.priceTopping || 0);
+  const setItemOrder = (data) => {
+    toogleOrder(data);
+  };
   function addOrder() {
-    props.addToCart(
-      props.itemOrder._id,
-      props.itemOrder.product_name,
+    addToCart({
+      _id: props.itemOrder._id,
+      product_name: props.itemOrder.product_name,
       size,
       topping,
       desc,
       amount,
       priceTopping,
-      price
-    );
-    setItemOrder(0);
+      price,
+    });
+    setItemOrder({});
   }
-  function calAmount(data) {
+  const calAmount = (data) => {
     let tmpamount = amount + data;
-    if (tmpamount < 1) {
-      setAmount(0);
-    } else {
-      setAmount(tmpamount);
-    }
-  }
-  function changeStateSize(size, price) {
+    if (tmpamount < 1) tmpamount = 0;
+    setAmount(tmpamount);
+  };
+  const changeStateSize = (size, price) => {
     setSize(size);
     setPrice(price);
-  }
-  function changeStateTopping(data) {
+  };
+  const changeStateTopping = (name, price) => {
     let tmp = [...topping];
-    topping.includes(data.code)
-      ? (tmp = topping.filter((item) => item !== data.code)) &&
-        setTopping(tmp) &&
-        setPriceTopping(priceTopping - data.price)
-      : tmp.push(data.code) &&
-        setTopping(tmp) &&
-        setPriceTopping(priceTopping + data.price);
-  }
+    let tmpPrice = 0;
+    topping.includes(name)
+      ? (tmp = topping.filter((item) => item !== name)) &&
+        (tmpPrice = priceTopping - price)
+      : tmp.push(name) && (tmpPrice = priceTopping + price);
+    setTopping(tmp);
+    setPriceTopping(tmpPrice);
+  };
   function getDesc(e) {
     setDesc(e.target.value);
   }
 
   useEffect(() => {
-    if (size === null) {
+    if (!size) {
       let b = document.querySelector("input[checked]").getAttribute("value");
       if (b != null) setSize(b, price);
     }
   }, []);
 
-  const itemOrder = props.itemOrder;
   return (
     <div className="order_container">
       <div className="order_overlay" onClick={() => setItemOrder(0)}></div>
@@ -74,12 +71,7 @@ function OrderContainer(props) {
             <h4 className="name_product">{itemOrder.product_name}</h4>
             <p className="current_option">{size}</p>
             <p className="current_option">
-              {itemOrder.topping_list.map((item, index) =>
-                topping.includes(item.code)
-                  ? item.product_name +
-                    (index < topping.length - 1 ? " + " : "")
-                  : null
-              )}
+              {topping.map((item, index) => (index > 0 ? " + " : "") + item)}
             </p>
           </article>
         </div>
@@ -115,12 +107,14 @@ function OrderContainer(props) {
                 {itemOrder.topping_list.map((item, index) => (
                   <InputCheckbox
                     key={index}
-                    checked={topping.includes(item.code) ? true : false}
+                    checked={topping.includes(item.product_name) ? true : false}
                     type="checkbox"
                     id={item.code}
                     name="topping"
                     value={item.code}
-                    onClick={() => changeStateTopping(item)}
+                    onClick={() =>
+                      changeStateTopping(item.product_name, item.price)
+                    }
                     nameOption={item.product_name}
                     price={item.price}
                   />

@@ -28,16 +28,12 @@ function CartContainer(props) {
                       <h4 className="item_name">{item.product_name}</h4>
                       <p className="list_option">
                         {item.size}
-                        {item.topping_list.map((e, index) =>
-                          item.topping.includes(e.code)
-                            ? " + " + e.product_name
-                            : null
-                        )}
+                        {item.topping.map((item) => " + " + item)}
                       </p>
                       <p className="list_option">{item.description}</p>
                     </div>
                   </div>
-                  <div>
+                  <div className="price">
                     <Price
                       className="no-margin"
                       price={(item.price + item.priceTopping) * item.amount}

@@ -175,3 +175,7 @@ select {
   border-radius: 12px;
   text-align: center;
 }
+
+.price {
+  min-width: max-content;
+}

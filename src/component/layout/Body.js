@@ -7,25 +7,22 @@ import OrderContainer from "../features/OrderContainer";
 import CateLoading from "../placeholder/CategoriesLoading";
 import MenuLoading from "../placeholder/MenuLoading";
 import SearchNoneData from "../../img/search.png";
+import { compareArr, mergeData } from "../assets/helpers";
 
-function Body(props) {
-  
+function Body({ getAmount }) {
   //fetch API
   const [isLoaded, setIsLoaded] = useState(false);
   const [allData, setAllData] = useState([]);
   const [active, setActive] = useState(null);
   const [menu, setMenu] = useState([]);
-  //     // Order
-  const [order, setOrder] = useState(false);
-  const [itemOrder, setItemOrder] = useState([]);
+
+  // Order
+  const [detailOrder, setDetailOrder] = useState({});
+  const [itemOrder, setItemOrder] = useState({});
   const [listOrder, setListOrder] = useState([]);
-  const [size, setSize] = useState(null);
-  const [topping, setTopping] = useState([]);
-  const [desc, setDesc] = useState(null);
-  const [amount, setAmount] = useState(1);
-  const [price, setPrice] = useState(null);
+  const [openOrder, setOpenOrder] = useState(false);
   const [indexItem, setIndexItem] = useState(-1);
-  const [priceTopping, setPriceTopping] = useState(null);
+
   //     // totalAmount&Price
   const [totalAmount, setTotalAmount] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
@@ -39,103 +36,51 @@ function Body(props) {
       (item) =>
         (totalAmount += item.amount) && (totalPrice += item.price * item.amount)
     );
-    props.getAmount(totalAmount);
+    getAmount(totalAmount);
     setTotalAmount(totalAmount);
     setTotalPrice(totalPrice);
   }
-  function addToCart(
-    _id,
-    product_name,
-    size,
-    topping,
-    description,
-    amount,
-    priceTopping,
-    price
-  ) {
-    let obj = {
-      _id,
-      product_name: product_name,
-      topping_list: itemOrder.topping_list,
-      size: size,
-      topping: topping,
-      description: description,
-      amount: amount,
-      priceTopping: priceTopping,
-      price: price,
-    };
-
-    let tmpCart = listOrder;
-    if (indexItem !== -1) {
-      tmpCart = tmpCart.filter((item, index) => index !== indexItem);
-    }
+  const addToCart = (order) => {
+    const tmpOrder = { ...order };
+    let tmpListOrder = [...listOrder];
     let addOrEdit = 1;
-    tmpCart.map((item) =>
-      item._id === _id &&
-      item.size === size &&
-      item.description === description &&
-      (item.topping.length > 1
-        ? item.topping.length === topping.length
-        : JSON.stringify(item.topping) === JSON.stringify(topping))
-        ? ((item.amount += amount),
-          (item.price = price),
-          (item.priceTopping = priceTopping),
-          (addOrEdit *= -1),
-          (item.description = description))
+    if (indexItem !== -1) {
+      tmpListOrder = tmpListOrder.filter((item, index) => index !== indexItem);
+    }
+    tmpListOrder.map((item) =>
+      item._id === tmpOrder._id &&
+      item.size === tmpOrder.size &&
+      item.desc === tmpOrder.desc &&
+      compareArr(item.topping, tmpOrder.topping)
+        ? ((item.amount += tmpOrder.amount),
+          (item.price = tmpOrder.price),
+          (item.priceTopping = tmpOrder.priceTopping),
+          (item.desc = tmpOrder.desc),
+          (addOrEdit *= -1))
         : (addOrEdit *= 1)
     );
     if (addOrEdit === 1) {
-      setListOrder([...tmpCart, obj].filter((item) => item.amount > 0));
-      localStorage.setItem(
-        "cartOrder",
-        JSON.stringify([...tmpCart, obj].filter((item) => item.amount > 0))
-      );
-      getAmountOrder([...tmpCart, obj].filter((item) => item.amount > 0));
-    } else {
-      setListOrder(tmpCart);
-      localStorage.setItem("cartOrder", JSON.stringify(tmpCart));
-      getAmountOrder(tmpCart);
+      tmpListOrder = [...tmpListOrder, order].filter((item) => item.amount > 0);
     }
+    setListOrder(tmpListOrder);
+    localStorage.setItem("cartOrder", JSON.stringify(tmpListOrder));
+    getAmount(tmpListOrder);
     resetIndexItem();
-  }
-  function toogleOrder(data) {
-    setOrder(!order);
+  };
+  const toogleOrder = (data) => {
+    setOpenOrder(!openOrder);
     setItemOrder(data);
-    setSize(null);
-    setTopping([]);
-    setDesc(null);
-    setAmount(1);
-    setPriceTopping(0);
-    setPrice(data.price);
+    setDetailOrder({});
     resetIndexItem();
-  }
-  function editItemOrder(data, index) {
-    let itemEdit = menu.filter((item) => item._id === data._id);
-    setOrder(!order);
-    setItemOrder(itemEdit[0]);
-    setSize(data.size);
-    setTopping(data.topping);
-    setDesc(data.description);
-    setAmount(data.amount);
-    setPriceTopping(data.priceTopping);
-    setPrice(data.price);
+  };
+  const editItemOrder = (order, index) => {
+    const itemEdit = menu.find((item) => item._id === order._id);
+    setOpenOrder(!openOrder);
+    setItemOrder(itemEdit);
     setIndexItem(index);
-  }
+    setDetailOrder(order);
+  };
 
-  function mergeData(category, product) {
-    category.map((itemcat) => {
-      let arr = [];
-      product.map((itempro) => {
-        if (itempro.categ_id.includes(itemcat.id)) {
-          arr.push(itempro);
-        }
-        return 0;
-      });
-      itemcat.ListProduct = arr;
-      return 0;
-    });
-    return category;
-  }
   useEffect(() => {
     callApi(`v2/category/web`, "GET", null).then((categories) => {
       callApi(`v2/menu`, "GET", null).then((menus) => {
@@ -190,17 +135,12 @@ function Body(props) {
           active={active}
           toogleOrder={toogleOrder}
         />
-        {order ? (
+        {openOrder ? (
           <OrderContainer
             toogleOrder={toogleOrder}
-            itemOrder={itemOrder}
             addToCart={addToCart}
-            size={size}
-            topping={topping}
-            desc={desc}
-            amount={amount}
-            price={price}
-            priceTopping={priceTopping}
+            itemOrder={itemOrder}
+            {...detailOrder}
           />
         ) : null}
         <CartContainer
